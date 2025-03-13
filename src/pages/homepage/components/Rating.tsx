@@ -1,12 +1,20 @@
 import { useState } from 'react'
 
-const Rating = () => {
+type RatingProps = {
+  onRatingChange: (rating: number) => void;
+  rating: number;
+}
+const Rating = ({ onRatingChange, rating }: RatingProps) => {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
-  const [selectedValue, setSelectedValue] = useState<number | null>(null);
+
+  const handleClick = (index: number) => () => {
+    onRatingChange(index)
+  }
+  console.log({ hoveredValue })
   return (
     <div className='bg-white flex my-1'>
       {[1, 2, 3, 4, 5].map((i) => {
-        const isHighlighted = hoveredValue !== null ? i <= hoveredValue : selectedValue !== null && i <= selectedValue;
+        const isHighlighted = hoveredValue !== null ? i <= hoveredValue : rating !== 0 && i <= rating;
 
         return (
           <div
@@ -16,7 +24,7 @@ const Rating = () => {
             `}
             onMouseEnter={() => setHoveredValue(i)}
             onMouseLeave={() => setHoveredValue(null)}
-            onClick={() => setSelectedValue(i)}
+            onClick={handleClick(i)}
           >
             {i}
           </div>

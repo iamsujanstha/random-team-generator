@@ -2,25 +2,34 @@ import Item from '@src/pages/homepage/components/Item';
 import { useState } from 'react';
 
 const TeamList = () => {
-  const [teams, setTeams] = useState<string[]>(Array.from({ length: 2 }, (_, i) => `Team ${i + 1}`));
+  const [teams, setTeams] = useState<string[]>(Array.from({ length: 2 }, () => ''));
 
   const removeItem = (index: number) => {
-    const updatedItems = teams.filter((_, i) => i !== index);
-    const renumberedItems = updatedItems.map((_, idx) => (`Team ${idx + 1}`));
-    setTeams(renumberedItems);
+    if (teams.length > 1) {
+      setTeams(teams.filter((_, i) => i !== index));
+    }
+    return;
   };
 
   const handleAddItem = () => {
-    setTeams([...teams, `Team ${teams.length + 1}`]);
-    console.log(teams)
+    setTeams([...teams, '']);
+  };
+
+  const handleNameChange = (index: number, newName: string) => {
+    setTeams(prev => prev.map((p, i) => (i === index ? newName : p)));
   };
 
   return (
     <div className="flex flex-col p-4 rounded-lg shadow-md">
       <h2 className="font-bold mb-2">Teams</h2>
-      {teams.map((_, index) => (
+      {teams.map((team, index) => (
         <div key={index} className="flex teams-center gap-2 mb-2">
-          <Item label='Team' onRemoveItem={() => removeItem(index)} />
+          <Item
+            name={team}
+            onRemoveItem={() => removeItem(index)}
+            onNameChange={(newName) => handleNameChange(index, newName)}
+            placeholder={`Team ${index + 1}`}
+          />
         </div>
       ))}
       <div className='flex'>

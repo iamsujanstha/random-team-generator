@@ -3,10 +3,6 @@
 import ParticipantList from "@src/pages/homepage/ParticipantList";
 import TeamList from "@src/pages/homepage/TeamList";
 
-export type ParticipantType = {
-  name: string,
-  rating: number | null
-}
 const TeamGenerator: React.FC = () => {
 
   return (
