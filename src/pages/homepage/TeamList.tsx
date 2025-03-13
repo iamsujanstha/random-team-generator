@@ -1,4 +1,5 @@
 import Dropdown from '@components/Dropdown';
+import AddItemButton from '@src/pages/homepage/components/AddItemButton';
 import Item from '@src/pages/homepage/components/Item';
 import { useEffect, useState } from 'react';
 
@@ -36,7 +37,7 @@ const TeamList = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 rounded-lg shadow-md">
+    <div className="flex flex-col mt-6">
       <div className='flex'>
         <Dropdown
           label="Teams"
@@ -55,12 +56,7 @@ const TeamList = () => {
           />
         </div>
       ))}
-      <div className='flex'>
-        <span className="flex teams-center bg-gray-300 text-gray-700 px-3 py-1 align-teams-center">{teams.length}</span>
-        <button className="flex teams-center bg-gray-500 text-white font-semibold px-4 py-2 cursor-pointer" onClick={handleAddItem}>
-          Add Team
-        </button>
-      </div>
+      <AddItemButton itemLength={teams.length} onAdd={handleAddItem} label='Team' />
     </div>
   );
 };

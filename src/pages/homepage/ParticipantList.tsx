@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Dropdown from '@components/Dropdown';
 import Item from '@src/pages/homepage/components/Item';
 import Rating from '@src/pages/homepage/components/Rating';
+import AddItemButton from '@src/pages/homepage/components/AddItemButton';
 
 
 export type ParticipantType = {
@@ -53,9 +54,8 @@ const ParticipantList = () => {
   }
 
   return (
-    <div className="flex flex-col p-4 rounded-lg shadow-md">
+    <div className="flex flex-col mt-6">
       <div className='flex'>
-        {/* <h2 className="font-bold mb-2 text-start">Participants</h2> */}
         <Dropdown
           label="Participants"
           options={Array.from({ length: 60 }, (_, i) => i + 1)}
@@ -77,12 +77,7 @@ const ParticipantList = () => {
           />
         </div>
       ))}
-      <div className='flex'>
-        <span className="bg-gray-300 text-gray-700 px-3 py-1">{participants.length}</span>
-        <button className="bg-gray-500 text-white font-semibold px-4 py-2" onClick={handleAddItem}>
-          Add Participant
-        </button>
-      </div>
+      <AddItemButton itemLength={participants.length} onAdd={handleAddItem} label='Participant' />
     </div>
   );
 };
