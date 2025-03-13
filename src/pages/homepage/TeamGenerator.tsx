@@ -1,15 +1,37 @@
-import EntityList from "@src/pages/homepage/components/EntityList";
-import { useState } from "react";
+// import Button from "@components/Button";
+// import Dropdown from "@components/Dropdown";
+import ParticipantList from "@src/pages/homepage/ParticipantList";
+import TeamList from "@src/pages/homepage/TeamList";
 
+export type ParticipantType = {
+  name: string,
+  rating: number | null
+}
 const TeamGenerator: React.FC = () => {
-  const [participants, setParticipants] = useState<string[]>(Array.from({ length: 10 }, (_, i) => `Participant ${i + 1}`));
-  const [teams, setTeams] = useState<string[]>(Array.from({ length: 2 }, (_, i) => `Team ${i + 1}`));
 
   return (
     <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
-      <EntityList title="Participants" items={participants} setItems={setParticipants} showRating={true} />
+      {/* <div className="flex gap-6">
+        <Dropdown<number>
+          label="Participants"
+          options={[5, 10, 15, 20]}
+          value={numParticipants}
+          onChange={(val) => setNumParticipants(val)}
+        />
+        <Dropdown<number>
+          label="Teams"
+          options={[2, 3, 4, 5]}
+          value={numTeams}
+          onChange={(val) => setNumTeams(val)}
+        />
+      </div> */}
 
-      <EntityList title="Teams" items={teams} setItems={setTeams} showRating={false} />
+      {/* <div className="grid grid-cols-1 gap-6 md:grid-cols-2"> */}
+      <ParticipantList />
+      <TeamList />
+      {/* </div> */}
+
+      {/* <Button text="Generate Teams" onClick={() => console.log("Teams Generated!")} disabled={participants.length < numTeams} /> */}
     </div>
   );
 };
