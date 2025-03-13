@@ -1,6 +1,22 @@
 @import "tailwindcss";
 
+@theme static {
+  /* --*: initial; */
+  --color-darkGray: "#43464d";
+  --color-lightGray: "#999999";
+  --color-primary: "#c9c9c9";
+  --color-secondary: "#f0f0f0";
+  --color-orange: "#ff6548"
+}
+
+@font-face {
+  font-family: 'montserrat';
+  src: url('./assets/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'montserrat', 'Open Sans';
   background-color: #f0f0f0;
 }

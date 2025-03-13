@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       "@src": path.resolve(__dirname, "./src"),
       "@components": path.resolve(__dirname, "./src/components/ui"),
+      "@hooks": path.resolve(__dirname, "./src/hooks")
     },
   },
   plugins: [react(), tailwindcss()],

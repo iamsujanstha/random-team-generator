@@ -15,12 +15,9 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@components/*": [
-        "src/components/ui/*"
-      ],
-      "@src/*": [
-        "src/*"
-      ]
+      "@components/*": ["src/components/ui/*"],
+      "@hooks/*":["src/hooks"],
+      "@src/*": ["src/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

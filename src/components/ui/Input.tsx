@@ -10,7 +10,7 @@ type InputProps = {
 const Input: React.FC<InputProps> = ({ placeholder, value, onChange, className = "" }) => {
   return (
     <input
-      className={`px-4 py-2 focus:outline-none w-full bg-white border border-gray-300 h-11 ${className}`}
+      className={`px-4 py-2 focus:outline-none w-full bg-white border border-gray-300 h-11 ${className} placeholder:font-medium placeholder:text-gray-400 text-md`}
       placeholder={placeholder}
       onChange={(e) => onChange(e.target.value)}
       value={value}
