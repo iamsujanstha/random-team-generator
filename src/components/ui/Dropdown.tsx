@@ -6,10 +6,10 @@ type DropdownProps<T> = {
 };
 
 const Dropdown = <T,>({ label, options, value, onChange }: DropdownProps<T>) => (
-  <div className="flex flex-col">
-    <label className="font-semibold mb-1">{label}</label>
+  <div className="flex gap-8 items-center mb-4">
+    <h2 className="font-semibold text-xl">{label}</h2>
     <select
-      className="border p-2 rounded-lg shadow-sm"
+      className="border rounded-xs shadow-sm w-16"
       value={value as string}
       onChange={(e) => onChange(e.target.value as T)}
     >

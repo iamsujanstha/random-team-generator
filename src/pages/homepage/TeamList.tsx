@@ -1,8 +1,24 @@
+import Dropdown from '@components/Dropdown';
 import Item from '@src/pages/homepage/components/Item';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+const DEFAULT_TEAMS = 2
 const TeamList = () => {
+  const [numTeams, setNumTeams] = useState(DEFAULT_TEAMS);
   const [teams, setTeams] = useState<string[]>(Array.from({ length: 2 }, () => ''));
+
+  useEffect(function syncParticipant() {
+    setTeams((prev) => {
+      if (numTeams > prev.length) {
+        return [...prev, ...Array.from({ length: numTeams - prev.length }, () => '')];
+      }
+      return prev.slice(0, numTeams);
+    });
+  }, [numTeams]);
+
+  useEffect(function syncNumParticipant() {
+    setNumTeams(teams.length)
+  }, [teams])
 
   const removeItem = (index: number) => {
     if (teams.length > 1) {
@@ -21,7 +37,14 @@ const TeamList = () => {
 
   return (
     <div className="flex flex-col p-4 rounded-lg shadow-md">
-      <h2 className="font-bold mb-2">Teams</h2>
+      <div className='flex'>
+        <Dropdown
+          label="Teams"
+          options={Array.from({ length: 10 }, (_, i) => i + 1)}
+          value={numTeams}
+          onChange={(val) => setNumTeams(val)}
+        />
+      </div>
       {teams.map((team, index) => (
         <div key={index} className="flex teams-center gap-2 mb-2">
           <Item

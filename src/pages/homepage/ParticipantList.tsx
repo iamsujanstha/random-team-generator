@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
+import Dropdown from '@components/Dropdown';
 import Item from '@src/pages/homepage/components/Item';
 import Rating from '@src/pages/homepage/components/Rating';
-import { useState } from 'react';
 
 
 export type ParticipantType = {
@@ -8,13 +9,29 @@ export type ParticipantType = {
   rating: number
 }
 
+const DEFAULT_PARTICIPANTS = 10;
 const ParticipantList = () => {
+  const [numParticipants, setNumParticipants] = useState(DEFAULT_PARTICIPANTS)
   const [participants, setParticipants] = useState<ParticipantType[]>(
-    Array.from({ length: 10 }, () => ({
+    Array.from({ length: numParticipants }, () => ({
       name: '',
       rating: 0,
     }))
   );
+
+
+  useEffect(function syncParticipant() {
+    setParticipants((prev) => {
+      if (numParticipants > prev.length) {
+        return [...prev, ...Array.from({ length: numParticipants - prev.length }, () => ({ name: '', rating: 0 }))];
+      }
+      return prev.slice(0, numParticipants);
+    });
+  }, [numParticipants]);
+
+  useEffect(function syncNumParticipant() {
+    setNumParticipants(participants.length)
+  }, [participants])
 
   const removeItem = (index: number) => {
     if (participants.length > 1) {
@@ -35,10 +52,17 @@ const ParticipantList = () => {
     setParticipants(prev => prev.map((p, i) => (i === index ? { ...p, rating } : p)))
   }
 
-  console.log(participants)
   return (
     <div className="flex flex-col p-4 rounded-lg shadow-md">
-      <h2 className="font-bold mb-2">Participants</h2>
+      <div className='flex'>
+        {/* <h2 className="font-bold mb-2 text-start">Participants</h2> */}
+        <Dropdown
+          label="Participants"
+          options={Array.from({ length: 60 }, (_, i) => i + 1)}
+          value={numParticipants}
+          onChange={(val) => setNumParticipants(val)}
+        />
+      </div>
       {participants.map(({ name, rating }, index) => (
         <div key={index} className="flex items-center mb-2 gap-4">
           <Item
