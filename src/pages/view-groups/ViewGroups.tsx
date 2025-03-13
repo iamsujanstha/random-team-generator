@@ -50,7 +50,7 @@ const ViewGroups = () => {
             <section key={index} className="bg-white shadow-md rounded-md p-4">
               <h2 className="text-lg font-bold">
                 {teamName}
-                <span className="text-gray-500 ml-1 font-semibold">({index + 1})</span>
+                <span className="text-gray-500 ml-1 font-semibold">({members.length})</span>
               </h2>
 
               <ul className="my-2 text-sm text-gray-700 relative mb-4">
