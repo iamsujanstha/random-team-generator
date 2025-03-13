@@ -2,66 +2,87 @@ import Button from "@components/Button";
 import Input from "@components/Input";
 import MessageDrawer from "@src/components/core/MessageDrawer";
 import useDrawer from "@src/hooks/useDrawer";
-import ParticipantList from "@src/pages/homepage/ParticipantList";
+import { useGetGenerateTeams } from "@src/hooks/useGetGenerateTeams";
+import ParticipantList, { ParticipantType } from "@src/pages/homepage/ParticipantList";
 import TeamList from "@src/pages/homepage/TeamList";
+import { generateRandomTeams } from "@src/utils/generateRandomTeams";
+import { validationCheck } from "@src/utils/validationCheck";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
+
+const DEFAULT_PARTICIPANTS = 10;
+const DEFAULT_TEAMS = 2;
 const TeamGenerator: React.FC = () => {
-  const [name, setName] = useState('');
-  
+  const [teams, setTeams] = useState<string[]>(Array.from({ length: DEFAULT_TEAMS }, () => ''));
+  const [numParticipants, setNumParticipants] = useState(DEFAULT_PARTICIPANTS);
+
+  const [participants, setParticipants] = useState<ParticipantType[]>(
+    Array.from({ length: numParticipants }, () => ({
+      name: '',
+      rating: 0,
+    }))
+  );
+
+  const navigate = useNavigate();
+
+  const { setGroupedTeams, groupedTeams, setShareableLink, title, setTitle } = useGetGenerateTeams();
   const { isDrawerOpen, drawerContent, openDrawer } = useDrawer();
 
-  // const assignParticipantsToTeams = (participants: ParticipantType[], teamNames: string[])=> {
-  //   // Initialize teams with names and total ratings set to 0
-  //   const teams = teamNames.map(name => ({ name, members: [], totalRating: 0 }));
-  
-  //   // Distribute participants using forEach
-  //   participants.forEach(participant => {
-  //       // Find the team with the lowest total rating
-  //       const minTeam = teams.reduce((min, team) => 
-  //           team.totalRating < min.totalRating ? team : min, teams[0]);
-        
-  //       // Assign the participant to this team
-  //       minTeam.members.push(participant);
-  //       minTeam.totalRating += participant.rating;
-  //   });
-  
-  //   return teams;
-  // }
+  const generateShareableLink = () => {
+    if (!groupedTeams) return;
 
-  const handleGenerateTeam = () => {
-    if(name===''){
-      openDrawer('Please enter the title')
-    }
+    const dataString = encodeURIComponent(JSON.stringify(groupedTeams));
+    const link = `${window.location.origin}/view?data=${dataString}`;
 
+    setShareableLink(link);
+  };
+
+  const handleGenerateTeam = async () => {
+    const isValid = validationCheck(participants, teams, title, openDrawer)
+    if (!isValid) return;
+
+    const groups = await generateRandomTeams(participants, teams);
+    setGroupedTeams(groups)
+    generateShareableLink();
+    navigate('/view-groups')
   }
+
   return (
     <div className="w-full">
       <header className=' bg-[#43464d] p-8 flex gap-4 justify-center'>
-        <div className=''>
-          <label className="text-white font-semibold">Title</label>
+        <div className='w-96'>
+          <label className="text-white font-semibold text-xl">Title</label>
           <Input
             placeholder='Please enter title'
-            onChange={(name) => setName(name)}
-            value={name}
+            onChange={(name) => setTitle(name)}
+            value={title}
           />
         </div>
       </header>
       <section className="flex justify-center">
-        <div className="w-2/3 text-center">
+        <div className="md:w-2/3 md:text-center">
           <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
-            <ParticipantList />
-            <TeamList />
+            <ParticipantList
+              participants={participants}
+              setParticipants={setParticipants}
+              numParticipants={numParticipants}
+              setNumParticipants={setNumParticipants}
+            />
+            <TeamList
+              teams={teams}
+              setTeams={setTeams}
+            />
           </div>
           <Button
-            className="w-1/2 my-4"
+            className="w-1/2 my-8"
             label="Generate Teams"
             onClick={handleGenerateTeam}
           />
         </div>
       </section>
       {isDrawerOpen && (
-        <MessageDrawer isOpen={isDrawerOpen} content={drawerContent} />
+        <MessageDrawer isOpen={isDrawerOpen} content={drawerContent} type="error" />
       )}
     </div>
   );

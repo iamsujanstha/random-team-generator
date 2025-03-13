@@ -4,9 +4,13 @@ import Item from '@src/pages/homepage/components/Item';
 import { useEffect, useState } from 'react';
 
 const DEFAULT_TEAMS = 2
-const TeamList = () => {
+
+type Props = {
+  teams: string[];
+  setTeams: React.Dispatch<React.SetStateAction<string[]>>;
+}
+const TeamList = ({ teams, setTeams }: Props) => {
   const [numTeams, setNumTeams] = useState(DEFAULT_TEAMS);
-  const [teams, setTeams] = useState<string[]>(Array.from({ length: 2 }, () => ''));
 
   useEffect(function syncParticipant() {
     setTeams((prev) => {
@@ -15,7 +19,7 @@ const TeamList = () => {
       }
       return prev.slice(0, numTeams);
     });
-  }, [numTeams]);
+  }, [numTeams, setTeams]);
 
   useEffect(function syncNumParticipant() {
     setNumTeams(teams.length)
@@ -56,7 +60,7 @@ const TeamList = () => {
           />
         </div>
       ))}
-      <AddItemButton itemLength={teams.length} onAdd={handleAddItem} label='Team' />
+      <AddItemButton itemLength={teams.length} onAdd={handleAddItem} label='Add Team' />
     </div>
   );
 };

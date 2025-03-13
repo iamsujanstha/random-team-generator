@@ -20,7 +20,7 @@ const Rating = ({ onRatingChange, rating }: RatingProps) => {
           <div
             key={i}
             className={`flex items-center px-4 py-1 cursor-pointer transition-all 
-              ${isHighlighted ? 'bg-amber-600 text-white' : 'bg-white text-gray-500'}
+              ${isHighlighted ? 'bg-amber-700 text-white' : 'bg-white text-gray-500'}
             `}
             onMouseEnter={() => setHoveredValue(i)}
             onMouseLeave={() => setHoveredValue(null)}

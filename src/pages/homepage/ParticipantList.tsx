@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Dropdown from '@components/Dropdown';
 import Item from '@src/pages/homepage/components/Item';
 import Rating from '@src/pages/homepage/components/Rating';
@@ -10,16 +10,13 @@ export type ParticipantType = {
   rating: number
 }
 
-const DEFAULT_PARTICIPANTS = 10;
-const ParticipantList = () => {
-  const [numParticipants, setNumParticipants] = useState(DEFAULT_PARTICIPANTS)
-  const [participants, setParticipants] = useState<ParticipantType[]>(
-    Array.from({ length: numParticipants }, () => ({
-      name: '',
-      rating: 0,
-    }))
-  );
-
+type Props = {
+  participants: ParticipantType[];
+  setParticipants: React.Dispatch<React.SetStateAction<ParticipantType[]>>
+  numParticipants: number;
+  setNumParticipants: React.Dispatch<React.SetStateAction<number>>;
+}
+const ParticipantList = ({ participants, setParticipants, setNumParticipants, numParticipants }: Props) => {
 
   useEffect(function syncParticipant() {
     setParticipants((prev) => {
@@ -28,11 +25,11 @@ const ParticipantList = () => {
       }
       return prev.slice(0, numParticipants);
     });
-  }, [numParticipants]);
+  }, [numParticipants, setParticipants]);
 
   useEffect(function syncNumParticipant() {
     setNumParticipants(participants.length)
-  }, [participants])
+  }, [participants, setNumParticipants])
 
   const removeItem = (index: number) => {
     if (participants.length > 1) {
@@ -77,7 +74,7 @@ const ParticipantList = () => {
           />
         </div>
       ))}
-      <AddItemButton itemLength={participants.length} onAdd={handleAddItem} label='Participant' />
+      <AddItemButton itemLength={participants.length} onAdd={handleAddItem} label='Add Participant' />
     </div>
   );
 };

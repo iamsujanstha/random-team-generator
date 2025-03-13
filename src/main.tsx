@@ -3,12 +3,17 @@ import './index.css'
 import App from './App.tsx'
 import 'font-awesome/css/font-awesome.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router';
+import ViewGroups from '@src/pages/view-groups/ViewGroups.tsx';
+import { TeamGenerateProvider } from '@src/context/TeamGenerateContext.tsx';
 
 
 createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-    </Routes>
-  </BrowserRouter>,
+  <TeamGenerateProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path='/view-groups' element={<ViewGroups />} />
+      </Routes>
+    </BrowserRouter>
+  </TeamGenerateProvider>,
 )
