@@ -1,7 +1,7 @@
 import { GroupedTeamType } from '@src/context/GenerateTeam.context';
 import { nanoid } from 'nanoid';
 
-export const generateShareableLink = (groupedTeams: GroupedTeamType[]) => {
+export const generateShareableLink = (groupedTeams: GroupedTeamType[]): string | undefined => {
   if (!groupedTeams || groupedTeams.length === 0) return;
 
   const randomId = nanoid(16);

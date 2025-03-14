@@ -3,18 +3,17 @@ import MessageDrawer from "@src/components/core/MessageDrawer";
 import { GroupedTeamType } from "@src/context/GenerateTeam.context";
 import useDrawer from "@src/hooks/useDrawer";
 import { useGetGenerateTeams } from "@src/hooks/useGetGenerateTeam";
+import { useLayoutEffect } from "react";
 
 
 const ViewGroups = () => {
   const { search } = useLocation();
-
   const params = new URLSearchParams(search);
   const encodedData = params.get('data');
 
-  const { groupedTeams: generatedTeams, shareableLink, title } = useGetGenerateTeams();
-  const { isDrawerOpen, drawerContent, openDrawer } = useDrawer();
-
+  const { groupedTeams: generatedTeams, shareableLink, title, setShareableLink } = useGetGenerateTeams();
   const groupedTeams: GroupedTeamType[] = encodedData ? JSON.parse(decodeURIComponent(encodedData)) : generatedTeams;
+  const { isDrawerOpen, drawerContent, openDrawer } = useDrawer();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareableLink);
@@ -22,6 +21,12 @@ const ViewGroups = () => {
   };
 
   const totalParticipants = groupedTeams.reduce((total, team) => total + team.members.length, 0);
+
+  useLayoutEffect(function syncShareableUrl() {
+    if (window.location)
+      setShareableLink(window.location.href)
+  }, [setShareableLink])
+
 
   return (
     <main className="w-full">
