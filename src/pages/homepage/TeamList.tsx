@@ -1,29 +1,28 @@
 import Dropdown from '@components/Dropdown';
 import AddItemButton from '@src/pages/homepage/components/AddItemButton';
 import Item from '@src/pages/homepage/components/Item';
-import { useEffect, useState } from 'react';
-
-const DEFAULT_TEAMS = 2
+import { useEffect } from 'react';
 
 type Props = {
   teams: string[];
   setTeams: React.Dispatch<React.SetStateAction<string[]>>;
+  totalTeams: number;
+  setTotalTeams: React.Dispatch<React.SetStateAction<number>>;
 }
-const TeamList = ({ teams, setTeams }: Props) => {
-  const [numTeams, setNumTeams] = useState(DEFAULT_TEAMS);
+const TeamList = ({ teams, setTeams, totalTeams, setTotalTeams }: Props) => {
 
   useEffect(function syncParticipant() {
     setTeams((prev) => {
-      if (numTeams > prev.length) {
-        return [...prev, ...Array.from({ length: numTeams - prev.length }, () => '')];
+      if (totalTeams > prev.length) {
+        return [...prev, ...Array.from({ length: totalTeams - prev.length }, () => '')];
       }
-      return prev.slice(0, numTeams);
+      return prev.slice(0, totalTeams);
     });
-  }, [numTeams, setTeams]);
+  }, [totalTeams, setTeams]);
 
   useEffect(function syncNumParticipant() {
-    setNumTeams(teams.length)
-  }, [teams])
+    setTotalTeams(teams.length)
+  }, [setTotalTeams, teams])
 
   const removeItem = (index: number) => {
     if (teams.length > 1) {
@@ -46,8 +45,8 @@ const TeamList = ({ teams, setTeams }: Props) => {
         <Dropdown
           label="Teams"
           options={Array.from({ length: 10 }, (_, i) => i + 1)}
-          value={numTeams}
-          onChange={(val) => setNumTeams(val)}
+          value={totalTeams}
+          onChange={(val) => setTotalTeams(val)}
         />
       </div>
       {teams.map((team, index) => (

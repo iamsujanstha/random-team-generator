@@ -1,22 +1,24 @@
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import Button from "@components/Button";
 import Input from "@components/Input";
 import MessageDrawer from "@src/components/core/MessageDrawer";
 import useDrawer from "@src/hooks/useDrawer";
-import { useGetGenerateTeams } from "@src/hooks/useGetGenerateTeams";
+import { useGetGenerateTeams } from "@src/hooks/useGetGenerateTeam";
 import ParticipantList, { ParticipantType } from "@src/pages/homepage/ParticipantList";
 import TeamList from "@src/pages/homepage/TeamList";
 import { generateRandomTeams } from "@src/utils/generateRandomTeams";
+import { generateShareableLink } from "@src/utils/generateShareableLink";
 import { validationCheck } from "@src/utils/validationCheck";
-import { useState } from "react";
-import { useNavigate } from "react-router";
 
 
 const DEFAULT_PARTICIPANTS = 10;
 const DEFAULT_TEAMS = 2;
 const TeamGenerator: React.FC = () => {
+  const [isLoading, setLoading] = useState(false);
   const [teams, setTeams] = useState<string[]>(Array.from({ length: DEFAULT_TEAMS }, () => ''));
   const [numParticipants, setNumParticipants] = useState(DEFAULT_PARTICIPANTS);
-
+  const [numTeams, setNumTeams] = useState(DEFAULT_TEAMS);
   const [participants, setParticipants] = useState<ParticipantType[]>(
     Array.from({ length: numParticipants }, () => ({
       name: '',
@@ -29,23 +31,18 @@ const TeamGenerator: React.FC = () => {
   const { setGroupedTeams, groupedTeams, setShareableLink, title, setTitle } = useGetGenerateTeams();
   const { isDrawerOpen, drawerContent, openDrawer } = useDrawer();
 
-  const generateShareableLink = () => {
-    if (!groupedTeams) return;
-
-    const dataString = encodeURIComponent(JSON.stringify(groupedTeams));
-    const link = `${window.location.origin}/view?data=${dataString}`;
-
-    setShareableLink(link);
-  };
-
   const handleGenerateTeam = async () => {
     const isValid = validationCheck(participants, teams, title, openDrawer)
     if (!isValid) return;
 
-    const groups = await generateRandomTeams(participants, teams);
+    setLoading(true);
+    const groups = await generateRandomTeams(participants, teams, title);
+    setLoading(false);
     setGroupedTeams(groups)
-    generateShareableLink();
-    navigate('/view-groups')
+    const encodedLink = generateShareableLink(groupedTeams);
+
+    if (encodedLink) navigate(encodedLink)
+    setShareableLink(`${window.location}` + encodedLink as string)
   }
 
   return (
@@ -66,18 +63,21 @@ const TeamGenerator: React.FC = () => {
             <ParticipantList
               participants={participants}
               setParticipants={setParticipants}
-              numParticipants={numParticipants}
-              setNumParticipants={setNumParticipants}
+              totalParticipants={numParticipants}
+              setTotalParticipants={setNumParticipants}
             />
             <TeamList
               teams={teams}
               setTeams={setTeams}
+              totalTeams={numTeams}
+              setTotalTeams={setNumTeams}
             />
           </div>
           <Button
             className="w-1/2 my-8"
-            label="Generate Teams"
+            label={isLoading ? 'Generating Team...' : 'Generate Team'}
             onClick={handleGenerateTeam}
+            disabled={isLoading}
           />
         </div>
       </section>

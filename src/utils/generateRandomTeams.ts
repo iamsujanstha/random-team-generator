@@ -1,7 +1,7 @@
-import { GroupedTeamType } from "@src/context/TeamGenerateContext";
+import { GroupedTeamType } from "@src/context/GenerateTeam.context";
 import { ParticipantType } from "@src/pages/homepage/ParticipantList";
 
-export const generateRandomTeams = async (participants: ParticipantType[], teamNames: string[]) => {
+export const generateRandomTeams = async (participants: ParticipantType[], teamNames: string[], title: string) => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
   participants.sort((a, b) => b.rating - a.rating);
@@ -10,6 +10,7 @@ export const generateRandomTeams = async (participants: ParticipantType[], teamN
     teamName: name,
     members: [],
     totalRating: 0,
+    title
   }));
 
   participants.forEach(participant => {

@@ -10,7 +10,7 @@ const Rating = ({ onRatingChange, rating }: RatingProps) => {
   const handleClick = (index: number) => () => {
     onRatingChange(index)
   }
-  console.log({ hoveredValue })
+
   return (
     <div className='bg-white flex my-1'>
       {[1, 2, 3, 4, 5].map((i) => {

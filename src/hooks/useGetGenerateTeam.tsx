@@ -1,9 +1,9 @@
 
-import { GroupTeamContext } from "@src/context/TeamGenerateContext";
+import { GenerateTeamContext } from "@src/context/GenerateTeam.context";
 import { useContext } from "react";
 
 export const useGetGenerateTeams = () => {
-  const context = useContext(GroupTeamContext);
+  const context = useContext(GenerateTeamContext);
   if (!context) {
     throw new Error('useGetGenerateTeams must be used within a TeamGenerateProvider');
   }

@@ -13,42 +13,41 @@ export type ParticipantType = {
 type Props = {
   participants: ParticipantType[];
   setParticipants: React.Dispatch<React.SetStateAction<ParticipantType[]>>
-  numParticipants: number;
-  setNumParticipants: React.Dispatch<React.SetStateAction<number>>;
+  totalParticipants: number;
+  setTotalParticipants: React.Dispatch<React.SetStateAction<number>>;
 }
-const ParticipantList = ({ participants, setParticipants, setNumParticipants, numParticipants }: Props) => {
+const ParticipantList = ({ participants, setParticipants, setTotalParticipants, totalParticipants }: Props) => {
 
   useEffect(function syncParticipant() {
     setParticipants((prev) => {
-      if (numParticipants > prev.length) {
-        return [...prev, ...Array.from({ length: numParticipants - prev.length }, () => ({ name: '', rating: 0 }))];
+      if (totalParticipants > prev.length) {
+        return [...prev, ...Array.from({ length: totalParticipants - prev.length }, () => ({ name: '', rating: 0 }))];
       }
-      return prev.slice(0, numParticipants);
+      return prev.slice(0, totalParticipants);
     });
-  }, [numParticipants, setParticipants]);
+  }, [totalParticipants, setParticipants]);
 
   useEffect(function syncNumParticipant() {
-    setNumParticipants(participants.length)
-  }, [participants, setNumParticipants])
+    setTotalParticipants(participants.length)
+  }, [participants, setTotalParticipants])
 
   const removeItem = (index: number) => {
     if (participants.length > 1) {
       setParticipants(participants.filter((_, i) => i !== index));
     }
-    return;
   };
 
   const handleAddItem = () => {
     setParticipants([...participants, { name: '', rating: 0 }]);
   };
 
-  const handleNameChange = (index: number, newName: string) => {
-    setParticipants(prev => prev.map((p, i) => (i === index ? { ...p, name: newName } : p)));
+  const handleChange = (index: number, field: keyof ParticipantType, value: string | number) => {
+    setParticipants((prev) =>
+      prev.map((participant, i) =>
+        i === index ? { ...participant, [field]: field === 'rating' ? Number(value) : value } : participant
+      )
+    );
   };
-
-  const handleRatingChange = (index: number, rating: number) => {
-    setParticipants(prev => prev.map((p, i) => (i === index ? { ...p, rating } : p)))
-  }
 
   return (
     <div className="flex flex-col mt-6">
@@ -56,8 +55,8 @@ const ParticipantList = ({ participants, setParticipants, setNumParticipants, nu
         <Dropdown
           label="Participants"
           options={Array.from({ length: 60 }, (_, i) => i + 1)}
-          value={numParticipants}
-          onChange={(val) => setNumParticipants(val)}
+          value={totalParticipants}
+          onChange={(val) => setTotalParticipants(val)}
         />
       </div>
       {participants.map(({ name, rating }, index) => (
@@ -65,11 +64,11 @@ const ParticipantList = ({ participants, setParticipants, setNumParticipants, nu
           <Item
             name={name}
             onRemoveItem={() => removeItem(index)}
-            onNameChange={(newName) => handleNameChange(index, newName)}
+            onNameChange={(newName) => handleChange(index, 'name', newName)}
             placeholder={`Participant ${index + 1}`}
           />
           <Rating
-            onRatingChange={(rating) => handleRatingChange(index, rating)}
+            onRatingChange={(rating) => handleChange(index, 'rating', rating)}
             rating={rating}
           />
         </div>

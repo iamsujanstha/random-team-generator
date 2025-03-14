@@ -1,24 +1,41 @@
+import { useLocation } from "react-router";
 import MessageDrawer from "@src/components/core/MessageDrawer";
+import { GroupedTeamType } from "@src/context/GenerateTeam.context";
 import useDrawer from "@src/hooks/useDrawer";
-import { useGetGenerateTeams } from "@src/hooks/useGetGenerateTeams";
+import { useGetGenerateTeams } from "@src/hooks/useGetGenerateTeam";
+
 
 const ViewGroups = () => {
-  const { groupedTeams, shareableLink, title } = useGetGenerateTeams();
+  const { search } = useLocation();
+
+  const params = new URLSearchParams(search);
+  const encodedData = params.get('data');
+
+  const { groupedTeams: generatedTeams, shareableLink, title } = useGetGenerateTeams();
   const { isDrawerOpen, drawerContent, openDrawer } = useDrawer();
 
+  const groupedTeams: GroupedTeamType[] = encodedData ? JSON.parse(decodeURIComponent(encodedData)) : generatedTeams;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareableLink);
     openDrawer("Link copied to clipboard!");
   };
-  const totalParticipants = groupedTeams.reduce((total, team) => total + team.members.length, 0)
+
+  const totalParticipants = groupedTeams.reduce((total, team) => total + team.members.length, 0);
+
   return (
     <main className="w-full">
-      <header className="bg-[#43464d] p-8 flex flex-col  text-white">
-        <h1 className="font-bold text-2xl text-start">
-          {title}
-        </h1>
-        <p className="text-gray-400">{totalParticipants} participants in {groupedTeams.length} teams</p>
+      <header className="bg-[#43464d] p-8 text-white">
+        <div className="md:ml-76">
+          <h1 className="font-bold text-2xl">
+            {title || groupedTeams[0].title}
+          </h1>
+          <p className="text-gray-400">
+            {totalParticipants} {totalParticipants === 1 ? "participant" : "participants"} in{" "}
+            {groupedTeams.length} {groupedTeams.length === 1 ? "team" : "teams"}
+          </p>
+        </div>
+        <div></div>
       </header>
 
       <div className="flex flex-col md:items-center justify-center p-4">
