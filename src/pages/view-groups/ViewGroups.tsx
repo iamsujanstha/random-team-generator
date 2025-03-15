@@ -29,7 +29,7 @@ const ViewGroups = () => {
     if (window.location)
       setShareableLink(window.location.href)
   }, [setShareableLink])
-  console.log({ generatedTeams }, { groupedTeams })
+
   return (
     <main className="w-full">
       <Header>
