@@ -6,7 +6,7 @@ import useDrawer from "@src/hooks/useDrawer";
 import { useGetGenerateTeams } from "@src/hooks/useGetGenerateTeam";
 import ParticipantList, { ParticipantType } from "@src/pages/homepage/ParticipantList";
 import TeamList from "@src/pages/homepage/TeamList";
-import { generateRandomTeams } from "@src/utils/generateRandomTeams";
+import { generateBalancedTeams } from "@src/utils/generateBalancedTeams";
 import { generateShareableLink } from "@src/utils/generateShareableLink";
 import { validationCheck } from "@src/utils/validationCheck";
 import { Input } from "@components/InputField";
@@ -37,7 +37,7 @@ const TeamGenerator: React.FC = () => {
     if (!isValid) return;
 
     setLoading(true);
-    const groups = await generateRandomTeams(participants, teams, title);
+    const groups = await generateBalancedTeams(participants, teams, title);
     setLoading(false);
     setGroupedTeams(groups)
     const encodedLink = generateShareableLink(groups);
