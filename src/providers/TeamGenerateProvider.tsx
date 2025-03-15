@@ -11,9 +11,8 @@ export const TeamGenerateProvider: React.FC<TeamProviderProps> = ({ children }) 
   const [title, setTitle] = useState('')
 
   return (
-    <GenerateTeamContext.Provider value={{ groupedTeams, setGroupedTeams, shareableLink, setShareableLink, title, setTitle }
-    }>
+    <GenerateTeamContext value={{ groupedTeams, setGroupedTeams, shareableLink, setShareableLink, title, setTitle }}>
       {children}
-    </GenerateTeamContext.Provider>
+    </GenerateTeamContext>
   );
 };

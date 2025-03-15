@@ -8,7 +8,7 @@ A **Random Team Generator** built using **Vite** and **React**. This app allows 
 - 📱 **Responsive Design** - Fully optimized for mobile, tablet, and desktop.
 - ♿ **Accessible UI** - Built with accessibility in mind for an inclusive user experience.
 - ⚡ **Lightning Fast** - Powered by Vite for an optimized development and production experience.
-- - ⚡ **Validation** - Validate the Participant name with rating and Teams.
+- ✅ **Validation** – Ensure participant names, ratings, and teams are correctly entered with title.
 
 ## 📸 Screenshots
 ![alt text](src/assets/images/team-addition.png)
