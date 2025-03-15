@@ -10,7 +10,8 @@ A **Random Team Generator** built using **Vite** and **React**. This app allows 
 - ⚡ **Lightning Fast** - Powered by Vite for an optimized development and production experience.
 
 ## 📸 Screenshots
-![alt text](image.png)
+![alt text](image-2.png)
+![alt text](image-1.png)
 
 ## 🚀 Installation
 
