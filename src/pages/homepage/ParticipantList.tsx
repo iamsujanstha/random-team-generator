@@ -60,18 +60,18 @@ const ParticipantList = ({ participants, setParticipants, setTotalParticipants, 
         />
       </div>
       {participants.map(({ name, rating }, index) => (
-        <div key={index} className="flex items-center mb-2 gap-4">
+        <li key={index} className="flex items-center mb-2 gap-4">
           <Item
             name={name}
             onRemoveItem={() => removeItem(index)}
-            onNameChange={(newName) => handleChange(index, 'name', newName)}
+            onNameChange={(e) => handleChange(index, 'name', e.target.value)}
             placeholder={`Participant ${index + 1}`}
           />
           <Rating
             onRatingChange={(rating) => handleChange(index, 'rating', rating)}
             rating={rating}
           />
-        </div>
+        </li>
       ))}
       <AddItemButton itemLength={participants.length} onAdd={handleAddItem} label='Add Participant' />
     </div>

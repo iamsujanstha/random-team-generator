@@ -1,29 +1,38 @@
-import Input from "@components/Input";
+import Button from "@components/Button";
+import { Input } from "@components/InputField";
 
 type ItemPropType = {
   name: string;
-  onRemoveItem: () => void;
-  onNameChange: (newName: string) => void;
+  onRemoveItem?: () => void;
+  onNameChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
+  asLabel?: boolean
+  className?: string;
+  index?: number;
+  isDisable?: boolean;
 };
 
-const Item = ({ name, onRemoveItem, onNameChange, placeholder }: ItemPropType) => {
+const Item = ({ name, onRemoveItem, onNameChange, placeholder, asLabel = false, className, index, isDisable = false }: ItemPropType) => {
+
   return (
-    <div className='flex gap-4'>
-      <div className="flex items-center border border-gray-300">
-        <button
-          className="hover:text-gray-700 bg-gray-200 p-[10px] text-gray-400 cursor-pointer"
+    <Input className={className}>
+      <Input.Left>
+        <Button
           onClick={onRemoveItem}
+          className="bg-gray-200 border-1 border-gray-300 p-[9px] w-10"
         >
-          <i className="fa fa-times px-1" />
-        </button>
-        <Input
-          placeholder={placeholder}
-          onChange={onNameChange}
-          value={name}
-        />
-      </div>
-    </div>
+          <span className="p-1 text-[16px] hover:text-gray-700 text-gray-400">{index ?? <i className="fa fa-times" />}</span>
+        </Button>
+      </Input.Left>
+      <Input.Field
+        className="pl-12"
+        placeholder={placeholder}
+        onChange={onNameChange}
+        value={name}
+        readOnly={asLabel}
+        disabled={isDisable}
+      />
+    </Input>
   );
 };
 

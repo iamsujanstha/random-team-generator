@@ -1,24 +1,14 @@
-import Button from '@components/Button';
-import Input from '@components/Input';
-import React, { useState } from 'react'
+import React from 'react'
+import clsx from 'clsx';
 
 type HeadProps = {
   children?: React.ReactNode;
+  className?: string;
 }
-const Header = ({ children }: HeadProps) => {
-  const [name, setName] = useState('')
+const Header = ({ children, className }: HeadProps) => {
   return (
-    <header className='flex w-full bg-[#43464d] p-8 justify-center'>
+    <header className={clsx('bg-[#43464d] p-8 flex gap-4 justify-center text-white', className)}>
       {children}
-      <div className='flex w-96 gap-4'>
-        <Input
-          className=' bg-white'
-          placeholder='Add title'
-          onChange={(name) => setName(name)}
-          value={name}
-        />
-        <Button label='Add Title' />
-      </div>
     </header>
   )
 }

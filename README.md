@@ -1,54 +1,54 @@
-# React + TypeScript + Vite
+# Random Team Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **Random Team Generator** built using **Vite** and **React**. This app allows users to randomly divide a list of names into teams according to their skill rating.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎲 **Random Team Allocation** - Easily distribute people into teams.
+- 📱 **Responsive Design** - Fully optimized for mobile, tablet, and desktop.
+- ♿ **Accessible UI** - Built with accessibility in mind for an inclusive user experience.
+- ⚡ **Lightning Fast** - Powered by Vite for an optimized development and production experience.
 
-## Expanding the ESLint configuration
+## 📸 Screenshots
+![alt text](image.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Installation
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Follow these steps to set up the project:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. **Clone the repository**
+   ```sh
+   git clone https://github.com/yourusername/random-team-generator.git
+   cd random-team-generator
+   ```
+2. **Install dependencies**
+   ```sh
+   pnpm install
+   ```
+3. **Run the development server**
+   ```sh
+   pnpm run dev
+   ```
+4. **Build for production**
+   ```sh
+   pnpm run build
+   ```
+5. **Preview the build**
+   ```sh
+   pnpm run preview
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔧 Usage
+1. Enter the names of participants.
+2. Select the number of teams.
+3. Click the **Generate Teams** button.
+4. View and share the randomized teams.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🎨 Accessibility & Responsiveness
+- **Keyboard Navigation**: Fully navigable via keyboard for better usability.
+- **Screen Reader Friendly**: Uses semantic HTML and ARIA attributes.
+- **Mobile Friendly**: Adapts smoothly to different screen sizes.
+
+## 📜 License
+This project is licensed under the MIT License.
+

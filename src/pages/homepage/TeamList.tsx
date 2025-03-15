@@ -41,20 +41,18 @@ const TeamList = ({ teams, setTeams, totalTeams, setTotalTeams }: Props) => {
 
   return (
     <div className="flex flex-col mt-6">
-      <div className='flex'>
-        <Dropdown
-          label="Teams"
-          options={Array.from({ length: 10 }, (_, i) => i + 1)}
-          value={totalTeams}
-          onChange={(val) => setTotalTeams(val)}
-        />
-      </div>
+      <Dropdown
+        label="Teams"
+        options={Array.from({ length: 10 }, (_, i) => i + 1)}
+        value={totalTeams}
+        onChange={(val) => setTotalTeams(val)}
+      />
       {teams.map((team, index) => (
         <div key={index} className="flex teams-center gap-2 mb-2">
           <Item
             name={team}
             onRemoveItem={() => removeItem(index)}
-            onNameChange={(newName) => handleNameChange(index, newName)}
+            onNameChange={(e) => handleNameChange(index, e.target.value)}
             placeholder={`Team ${index + 1}`}
           />
         </div>
